@@ -5,7 +5,9 @@ import axios from 'axios'
 export default function Profile({ currentUser, handleLogout }) {
 	// state for the secret message (aka user privilaged data)
 	const [msg, setMsg] = useState('')
-	
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('*****')
+	const [edit, setEdit] = useState(false)
 	const navigate = useNavigate()
 
 	// useEffect for getting the user data and checking auth
@@ -41,16 +43,64 @@ export default function Profile({ currentUser, handleLogout }) {
 			}
 			fetchData()
 	}, [handleLogout, navigate]) // only fire on the first render of this component
-
+	const handleEdit = () => {
+		setEdit(true)
+	}
+	const handleSubmit = () => {
+		setEdit(false)
+		// make api request to save and update 'email' and 'password' state 
+	}
+	const handleCancelClick = () =>{
+		setEdit(false)
+		// reset user info to original values
+	}
 	return (
 		<div>
-			<h1>Hello, {currentUser?.name}</h1>
+			<div>
+				<h1>Hello, {currentUser?.name}</h1>
 
-			<h2>Welcome to your Profile Page</h2>
-			<p>your email is {currentUser?.email}</p>
+				<h2>Welcome to your Profile Page</h2>
+			</div>
+			<div className="user-stats">
+				<h2>User Stats</h2>
+				<p>Decks Studied: #</p>
+				<p>Number of Decks: #</p>
+			</div>
 
-
-			<h3>{msg}</h3>
+			<div>
+				{edit ? ( 
+					<>
+					<form onSubmit={handleSubmit}>
+						<label htmlFor='email'>Email:</label>
+						<input
+							type="text"
+							id="email"
+							placeholder="enter new email"
+							value={email}
+							onChange={e => setEmail(e.target.value)} />
+						<label htmlFor='password'>Password:</label>
+						<input
+							type="password"
+							id="password"
+							placeholder="enter new password"
+							value={password}
+							onChange={e => setPassword(e.target.value)} />
+						<button onClick={handleSubmit}>Save</button>
+						<button onClick={handleCancelClick}>Cancel</button>
+					</form>
+					</>
+				):(
+				<>
+				<div className="user-info">
+					<h2>User Information</h2>
+					<p>Email : {currentUser?.email}</p>
+					<p>Password : {password}</p>
+					<button onClick={handleEdit}>Edit</button>
+				</div>
+				<h3>{msg}</h3>
+				</>
+				)}
+			</div>
 		</div>
-	)
+		)
 }
