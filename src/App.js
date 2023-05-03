@@ -79,6 +79,10 @@ function App() {
 						path="/decks/:id"
 						element={<Deck />}
 					/>
+					<Route
+            			path='*'
+            			element={<NotFound />}
+          			/>
 				</Routes>
 			</div>
 		</Router>
