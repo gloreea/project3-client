@@ -1,11 +1,13 @@
 
+import {Link} from "react-router-dom"
 import CardForm from "../partials/CardForm";
 import {useState, useEffect} from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
 
 export default function Decks(){
-    const [deck, setDeck] = useState({})
+    const [decks, setDecks] = useState([]);
+
 
     const {id} = useParams()
     const navigate = useNavigate()
@@ -22,22 +24,34 @@ export default function Decks(){
           }
 
 
-        axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/1`, {
+          axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/`, {
             headers: {
-                'Authorization': token
+              'Authorization': token
             }
-        })
-        .then(response => {
-            console.log(response)
-            setDeck(response.data.result)
-        })
-        .catch(console.warn)
+          })
+          .then(response => {
+            console.log(response.data); // add this line
+            setDecks(response.data.result)
+          })
+          .catch(console.warn)
+          
     },[])
+
+    const deckList = decks ? decks.map(deck => {
+        return (
+          <li key={`deck-li ${deck._id}`}>
+            <Link to={`/decks/${deck._id}`}>
+              <p>{deck.name}</p>
+            </Link>
+          </li>
+        );
+      }) : null;
+      
 
 
     return(
         <>
-        This is the page to show the user their collection of Decks
+        {deckList}
         <CardForm/>
         </>
     )
