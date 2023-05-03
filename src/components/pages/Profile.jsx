@@ -46,9 +46,9 @@ export default function Profile({ currentUser, handleLogout }) {
 		<div>
 			<h1>Hello, {currentUser?.name}</h1>
 
+			<h2>Welcome to your Profile Page</h2>
 			<p>your email is {currentUser?.email}</p>
 
-			<h2>Here is the secret message that is only availible to users of User App:</h2>
 
 			<h3>{msg}</h3>
 		</div>
