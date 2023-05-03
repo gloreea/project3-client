@@ -5,14 +5,13 @@ export default function Navbar({ currentUser, handleLogout }) {
 		<>
 			{/* if the user is logged in... */}
 			<Link to="/">
-				<span onClick={handleLogout}>logout</span>
+				<span onClick={handleLogout}><button>logout</button></span>
 			</Link>
-			<Link to="/dashboard"> dashboard</Link>
 			<Link to="/profile">
-				profile
+			<button>profile</button>
 			</Link>
 			<Link to="/decks">
-			Your decks
+			<button>Your decks</button>
 			</Link>
 		</>
 	)
@@ -21,11 +20,11 @@ export default function Navbar({ currentUser, handleLogout }) {
 		<>
 			{/* if the user is not logged in... */}
 			<Link to="/register">
-				register
+				<button>register</button>
 			</Link>
 
 			<Link to="/login">
-				login
+			<button>login</button>
 			</Link>
 		</>
 	)
@@ -34,7 +33,7 @@ export default function Navbar({ currentUser, handleLogout }) {
 		<nav>
 			{/* user always sees this section */}
 			<Link to="/">
-				<p>User App</p>
+			<button>UserApp</button>
 			</Link>
 
 			{currentUser ? loggedIn : loggedOut}
