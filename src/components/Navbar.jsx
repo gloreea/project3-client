@@ -11,6 +11,9 @@ export default function Navbar({ currentUser, handleLogout }) {
 			<Link to="/profile">
 				profile
 			</Link>
+			<Link to="/decks">
+			Your decks
+			</Link>
 		</>
 	)
 
