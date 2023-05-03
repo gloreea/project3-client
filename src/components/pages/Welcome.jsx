@@ -27,7 +27,7 @@ export default function Welcome() {
           <p>Click 	Below!</p>
           <button>Register</button>
         </section>
-        <section className="exisitng-user">
+        <section className="existing-user">
           <h2>Returning User?</h2>
           <p>Click 	Below!</p>
           <button>Log in</button>
