@@ -11,6 +11,7 @@ import Welcome from './components/pages/Welcome'
 import Navbar from './components/Navbar'
 import Deck from './components/pages/Deck'
 import Decks from './components/pages/Decks'
+import NotFound from './components/pages/NotFound'
 import './App.css'
 import jwt_decode from 'jwt-decode'
 
