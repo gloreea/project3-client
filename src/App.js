@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 import Deck from './components/pages/Deck'
 import Decks from './components/pages/Decks'
 import NotFound from './components/pages/NotFound'
+import StudyMode from './components/pages/StudyMode'
 import './App.css'
 import jwt_decode from 'jwt-decode'
 
@@ -79,6 +80,10 @@ function App() {
 					<Route
 						path="/decks/:id"
 						element={<Deck />}
+					/>
+					<Route
+						path="/decks/:id/studymode"
+						element={<StudyMode />}
 					/>
 					<Route
             			path='*'

@@ -7,7 +7,6 @@ export default function Navbar({ currentUser, handleLogout }) {
 			<Link to="/">
 				<span onClick={handleLogout}>logout</span>
 			</Link>
-			<Link to="/dashboard"> dashboard</Link>
 			<Link to="/profile">
 				profile
 			</Link>
