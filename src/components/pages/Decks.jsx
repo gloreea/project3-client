@@ -31,17 +31,20 @@ export default function Decks(){
           })
           .then(response => {
             console.log(response.data); // add this line
-            setDecks(response.data.result)
+            setDecks(response.data)
+            
+            
           })
           .catch(console.warn)
           
     },[])
 
     const deckList = decks ? decks.map(deck => {
+        
         return (
           <li key={`deck-li ${deck._id}`}>
             <Link to={`/decks/${deck._id}`}>
-              <p>{deck.name}</p>
+              <p>{deck.title}</p>
             </Link>
           </li>
         );
@@ -50,9 +53,10 @@ export default function Decks(){
 
 
     return(
-        <>
-        {deckList}
+        <div>
+        
         <CardForm/>
-        </>
+        {deckList}
+        </div>
     )
 }
