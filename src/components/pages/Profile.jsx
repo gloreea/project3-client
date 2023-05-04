@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-export default function Profile({ currentUser, handleLogout }) {
+export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 	// state for the secret message (aka user privilaged data)
 	const [msg, setMsg] = useState('')
 	const [email, setEmail] = useState(currentUser?.email)
@@ -65,8 +65,10 @@ export default function Profile({ currentUser, handleLogout }) {
 				email: email,
 				password: password
 			}
-			await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/profile`, requestBody, options)
+			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/profile`, requestBody, options)
 			setEdit(false)
+			console.log(response)
+			setCurrentUser(response.data.user)
 		} catch (err) {
 			console.warn(err)
 		}
@@ -98,7 +100,7 @@ export default function Profile({ currentUser, handleLogout }) {
 						<input
 							type="text"
 							id="email"
-							placeholder="enter new email"
+							placeholder={currentUser?.email || 'enter new email'}
 							value={email}
 							onChange={e => setEmail( e.target.value)} />
 						<label htmlFor='password'>Password:</label>
