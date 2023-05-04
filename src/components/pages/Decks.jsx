@@ -46,6 +46,9 @@ export default function Decks(){
             <Link to={`/decks/${deck._id}`}>
               <p>{deck.title}</p>
             </Link>
+            
+            <Link to={`/decks/${deck._id}/studymode`}> <button>Study Mode</button> 
+            </Link>
           </li>
         );
       }) : null;
