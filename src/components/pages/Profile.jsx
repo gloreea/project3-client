@@ -46,14 +46,31 @@ export default function Profile({ currentUser, handleLogout }) {
 	const handleEdit = () => {
 		setEdit(true)
 	}
-	const handleSubmit = () => {
-		setEdit(false)
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		try {
+			const token = localStorage.getItem('jwt')
+      		const options = {
+        		headers: {
+          			'Authorization': token
+        		}
+      		}
+			const requestBody = {
+				email: email,
+				password: password
+			}
+			await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/profile`, requestBody, options)
+			setEdit(false)
+		} catch (err) {
+			console.warn(err)
+		}
 		// make api request to save and update 'email' and 'password' state 
 	}
 	const handleCancelClick = () =>{
 		setEdit(false)
 		// reset user info to original values
 	}
+	
 	return (
 		<div>
 			<div>
@@ -70,14 +87,14 @@ export default function Profile({ currentUser, handleLogout }) {
 			<div>
 				{edit ? ( 
 					<>
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={e => handleSubmit(e, email)}>
 						<label htmlFor='email'>Email:</label>
 						<input
 							type="text"
 							id="email"
 							placeholder="enter new email"
 							value={email}
-							onChange={e => setEmail(e.target.value)} />
+							onChange={e => setEmail( e.target.value)} />
 						<label htmlFor='password'>Password:</label>
 						<input
 							type="password"
