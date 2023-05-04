@@ -35,12 +35,20 @@ export default function Deck(){
 
   
 
+  const toggleBack = (event) => {
+    const backElement = event.currentTarget.querySelector(".flashcard-container-back");
+    backElement.classList.toggle("flashcard-container-show-back-back");
+  };
+  
   const flashCard = cards.map(card => (
-    <div class="flashcard-container flashcard-container:hover" key={card._id}>
-      <p class="flashcard-container-p flashcard-container-front ">Front: {card.front}</p>
-      <p class="flashcard-container-back ">Back: {card.back}</p>
+    <div className="flashcard-container" key={card._id} onClick={toggleBack}>
+      <p className="flashcard-container-p flashcard-container-front">Front: {card.front}</p>
+      <p className="flashcard-container-back">Back: {card.back}</p>
     </div>
   ));
+  
+  
+  
 
   return (
     <>
