@@ -33,14 +33,42 @@ export default function Deck(){
     fetchCards();
   },[]);
 
+  const deleteFlashcard = async (id) => {
+    const token = localStorage.getItem('jwt');
+    console.log(token)
+  
+    if (!token) {
+      navigate('/login'); // Redirect user to login page if no token found
+    }
+  
+    try {
+      const url = `${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${id}`;
+      console.log(`Deleting flashcard at URL: ${url}`);
+      const response = await axios.delete(url, {
+        headers: {
+          'Authorization': token
+        }
+      });
+      console.log(`DELETE response status: ${response.status}`);
+      console.log(`DELETE response data: ${JSON.stringify(response.data)}`);
+    } catch (err) {
+      console.log(`Error deleting flashcard: ${err.message}`);
+    }
+  };
   
 
+
+  
   const flashCard = cards.map(card => (
-    <div class="flashcard-container flashcard-container:hover" key={card._id}>
-      <p class="flashcard-container-p flashcard-container-front ">Front: {card.front}</p>
-      <p class="flashcard-container-back ">Back: {card.back}</p>
+    <div className="flashcard-container" key={card._id}>
+      <p className="flashcard-container-p flashcard-container-front">Front: {card.front}</p>
+      <p className="flashcard-container-back flashcard-container-show-back-back">Back: {card.back}</p>
+      <button className="delete-button" onClick={() => deleteFlashcard(card._id)}>Delete</button>
     </div>
   ));
+  
+  
+  
 
   return (
     <>

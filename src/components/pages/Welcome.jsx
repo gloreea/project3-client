@@ -25,12 +25,17 @@ export default function Welcome() {
         <section className="new-user">
           <h2>Ready to Get Started?</h2>
           <p>Click 	Below!</p>
+          <form action = "/register">
           <button>Register</button>
+          </form>
+
         </section>
         <section className="existing-user">
           <h2>Returning User?</h2>
           <p>Click 	Below!</p>
+          <form action ="/login">
           <button>Log in</button>
+          </form>           
         </section>
       </main>
     </div>
