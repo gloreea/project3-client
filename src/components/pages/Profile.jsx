@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-export default function Profile({ currentUser, handleLogout }) {
+export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 	// state for the secret message (aka user privilaged data)
 	const [msg, setMsg] = useState('')
-	const [email, setEmail] = useState('')
+	const [email, setEmail] = useState(currentUser?.email)
 	const [password, setPassword] = useState('*****')
 	const [edit, setEdit] = useState(false)
 	const navigate = useNavigate()
@@ -43,9 +43,15 @@ export default function Profile({ currentUser, handleLogout }) {
 			}
 			fetchData()
 	}, [handleLogout, navigate]) // only fire on the first render of this component
+
+	useEffect(() => {
+		setEmail(currentUser?.email)
+	}, [currentUser])
+
 	const handleEdit = () => {
 		setEdit(true)
 	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		try {
@@ -59,8 +65,10 @@ export default function Profile({ currentUser, handleLogout }) {
 				email: email,
 				password: password
 			}
-			await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/profile`, requestBody, options)
+			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/profile`, requestBody, options)
 			setEdit(false)
+			console.log(response)
+			setCurrentUser(response.data.user)
 		} catch (err) {
 			console.warn(err)
 		}
@@ -92,7 +100,7 @@ export default function Profile({ currentUser, handleLogout }) {
 						<input
 							type="text"
 							id="email"
-							placeholder="enter new email"
+							placeholder={currentUser?.email || 'enter new email'}
 							value={email}
 							onChange={e => setEmail( e.target.value)} />
 						<label htmlFor='password'>Password:</label>
@@ -100,7 +108,6 @@ export default function Profile({ currentUser, handleLogout }) {
 							type="password"
 							id="password"
 							placeholder="enter new password"
-							value={password}
 							onChange={e => setPassword(e.target.value)} />
 						<button onClick={handleSubmit}>Save</button>
 						<button onClick={handleCancelClick}>Cancel</button>

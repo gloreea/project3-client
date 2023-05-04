@@ -43,6 +43,10 @@ function App() {
 		}
 	}
 
+	const updateCurrentUser = (newUser) => {
+		setCurrentUser(newUser)
+	}
+
 	return (
 		<Router>
 			<header>
