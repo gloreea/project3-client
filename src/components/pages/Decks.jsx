@@ -1,7 +1,7 @@
 
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import CardForm from "../partials/CardForm";
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
 
@@ -39,6 +39,10 @@ export default function Decks(){
           
     },[])
 
+      const addNewDeck = newDeck => {
+        setDecks([...decks, newDeck])
+      }
+      
     const deckList = decks ? decks.map(deck => {
         
         return (
@@ -58,8 +62,9 @@ export default function Decks(){
     return(
         <div>
         
-        <CardForm/>
+        <CardForm 
+        addNewDeck={addNewDeck}
+      />
         {deckList}
         </div>
     )
-}
