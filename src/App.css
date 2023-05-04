@@ -70,6 +70,12 @@ button{
   transition: opacity 0.5s ease-in-out;
 }
 
+.flashcard-container-back-next {
+  color: #f44336;
+  opacity: 0;
+
+}
+
 .flashcard-container-show-back-front {
   display: none;
 
