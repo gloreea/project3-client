@@ -42,11 +42,12 @@
   height: 200px;
   margin: 20px;
   padding: 20px;
-  background-color: white;
+  background-color: lightblue;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   text-align: center;
+  position:center;
 }
 .landing-page {
   width: 100%;
@@ -73,15 +74,23 @@
 
 .flashcard-container-back {
   color: #f44336;
-  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.flashcard-container-back-next {
+  color: #f44336;
+  opacity: 0;
+
 }
 
 .flashcard-container-show-back-front {
   display: none;
+
 }
 
 .flashcard-container-show-back-back {
-  display: block;
+  opacity: 1;
 }
 
 .delete-button {
