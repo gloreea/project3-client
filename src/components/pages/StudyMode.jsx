@@ -6,6 +6,7 @@ import axios from 'axios';
 
 export default function StudyMode() {
     const [cards, setCards] = useState([]);
+    const [showBack, setShowBack] = useState(false);
     const { id } = useParams()
     const [currentCardIndex, setCurrentCardIndex] = useState(0)
     const navigate = useNavigate();
@@ -36,10 +37,10 @@ export default function StudyMode() {
 
 
 
-    //   const toggleBack = (event) => {
-    //     const backElement = event.currentTarget.querySelector(".flashcard-container-back");
-    //     backElement.classList.toggle("flashcard-container-show-back-back");
-    //   };
+    const toggleBack = (event) => {
+        setShowBack(!showBack);
+      };
+      
 
     //   const flashCard = cards.map(card => (
     //     <div className="flashcard-container" key={card._id} onClick={toggleBack}>
@@ -47,9 +48,12 @@ export default function StudyMode() {
     //       <p className="flashcard-container-back ">Back: {card.back}</p>
     //     </div>
     //   ));
+
     const handleNextCard = () => {
         setCurrentCardIndex((prevIndex) => prevIndex + 1);
-    }
+        setShowBack(false);
+      };
+
     const currentCard = cards[currentCardIndex]
     if (currentCardIndex >= cards.length) {
         return (
@@ -60,18 +64,18 @@ export default function StudyMode() {
     }
 
     return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div>
+            <h2>Study Mode</h2>
+            <div className="flashcard-container" onClick={toggleBack}>
+    <h2>Current Card {currentCardIndex + 1}</h2>
+    <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
+    <p className={`flashcard-container-back-next ${showBack ? 'flashcard-container-show-back-back' : ''}`}>Answer: {currentCard.back}</p>
+  </div>
             <div>
-                <h2>Study Mode</h2>
-                <div>
-                    <h2>Current Card {currentCardIndex + 1}</h2>
-                    <p>Front: {currentCard.front}</p>
-                    <p>Back: {currentCard.back}</p>
-                </div>
-                <div>
-                    <button onClick={handleNextCard}>Next Card</button>
-                </div>
+                <button onClick={handleNextCard}>Next Card</button>
             </div>
         </div>
-    );
+    </div>
+    )    
 }
