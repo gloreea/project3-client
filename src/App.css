@@ -75,3 +75,13 @@ button{
 .flashcard-container-show-back-back {
   display: block;
 }
+
+.delete-button {
+  background-color: lightpink;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+}
