@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-export default function CardForm() {
+export default function CardForm({ addNewDeck }) {
     const [deckTitle, setDeckTitle] = useState('')
 
     const handleSubmit = async (e) => {
+        e.preventDefault()
         try {
             const token = localStorage.getItem('jwt')
             const newDeck = { title: deckTitle }
@@ -15,6 +16,7 @@ export default function CardForm() {
                 }
             })
             console.log(response.data)
+            addNewDeck(response.data)
             setDeckTitle('')
 
         } catch (err) {
