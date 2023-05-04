@@ -6,6 +6,9 @@ import axios from 'axios';
 
 export default function Deck(){
   const [cards, setCards] = useState([]);
+  const [front, setFront] = useState('');
+  const [back, setBack] = useState('');
+
   const {id} = useParams()
   const navigate = useNavigate();
 
@@ -56,7 +59,36 @@ export default function Deck(){
     }
   };
   
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('jwt');
+  
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}/flashcards`, {
+        front,
+        back,
+        deckId: id,
+      }, {
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(`POST response status: ${response.status}`);
+      console.log(`POST response data: ${JSON.stringify(response.data)}`);
+      setFront('');
+      setBack('');
+      fetchCards();
+    } catch (err) {
+      console.log(`Error adding flashcard: ${err.message}`);
+    }
+  };
+  
 
   
   const flashCard = cards.map(card => (
@@ -72,6 +104,20 @@ export default function Deck(){
 
   return (
     <>
+    <form onSubmit={handleSubmit}>
+  <label>
+    Front:
+    <input type="text" value={front} onChange={(e) => setFront(e.target.value)} />
+  </label>
+  <br />
+  <label>
+    Back:
+    <input type="text" value={back} onChange={(e) => setBack(e.target.value)} />
+  </label>
+  <br />
+  <button type="submit">Add Flashcard</button>
+</form>
+
       {flashCard}
     </>
   );
