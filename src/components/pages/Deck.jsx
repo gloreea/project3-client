@@ -8,6 +8,7 @@ export default function Deck(){
   const [cards, setCards] = useState([]);
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
+  const [image, setImage] = useState('');
 
   const {id} = useParams()
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ export default function Deck(){
       const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}/flashcards`, {
         front,
         back,
+        image,
         deckId: id,
       }, {
         headers: {
@@ -83,21 +85,42 @@ export default function Deck(){
       console.log(`POST response data: ${JSON.stringify(response.data)}`);
       setFront('');
       setBack('');
+      setImage('');
       fetchCards();
     } catch (err) {
       console.log(`Error adding flashcard: ${err.message}`);
     }
   };
   
-
   
-  const flashCard = cards.map(card => (
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const flashCard = cards.map((card) => (
     <div className="flashcard-container" key={card._id}>
       <p className="flashcard-container-p flashcard-container-front">Front: {card.front}</p>
+      {card.image && (
+        <img
+          className="flashcard-container-image"
+          src={card.image}
+          alt={`Image for ${card.front}`}
+        />
+      )}
       <p className="flashcard-container-back flashcard-container-show-back-back">Back: {card.back}</p>
       <button className="delete-button" onClick={() => deleteFlashcard(card._id)}>Delete</button>
     </div>
   ));
+  
   
   
   
@@ -115,8 +138,14 @@ export default function Deck(){
     <input type="text" value={back} onChange={(e) => setBack(e.target.value)} />
   </label>
   <br />
+  <label>
+    Image:
+    <input type="file" onChange={handleImageUpload} />
+  </label>
+  <br />
   <button type="submit">Add Flashcard</button>
 </form>
+
 
       {flashCard}
     </>
