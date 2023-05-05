@@ -12,6 +12,7 @@ export default function StudyMode() {
     const navigate = useNavigate()
     const [numCorrect, setNumCorrect] = useState(0)
     const [flashcardCorrect, setFlashcardCorrect] = useState(false)
+    // const [stopFlash, setStopFlash] = useState(false);
 
     const fetchCards = async () => {
         try {
@@ -72,7 +73,11 @@ export default function StudyMode() {
     const handleMarkCorrect = () => {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1)
       setFlashcardCorrect(true)
-      setTimeout(handleNextCard, 1000); // 
+      
+      setTimeout(() => {
+        setFlashcardCorrect(false)
+        handleNextCard()
+      }, 1000); 
     }
     const handleMarkIncorrect = () => {
       setFlashcardCorrect(false)
@@ -85,11 +90,11 @@ export default function StudyMode() {
             <h2>Study Mode</h2>
             <h2>Deck Size: {countCards(cards)}</h2>
 
-            <div className="flashcard-container" onClick={toggleBack}>
-    <h2>Current Card {currentCardIndex + 1}</h2>
-    <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
-    <p className={`flashcard-container-back-next ${showBack ? 'flashcard-container-show-back-back' : ''}`}>Answer: {currentCard.back}</p>
-  </div>
+            <div className={`flashcard-container ${flashcardCorrect ? "flashcard-correct" : ""}`} onClick={toggleBack}>
+            <h2>Current Card {currentCardIndex + 1}</h2>
+              <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
+              <p className={`flashcard-container-back-next ${showBack ? 'flashcard-container-show-back-back' : ''}`}>Answer: {currentCard.back}</p>
+            </div>
             <div>
                 <button onClick={handleMarkCorrect}>Correct</button>
                 <button onClick={handleMarkIncorrect}>Incorrect</button>

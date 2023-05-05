@@ -49,6 +49,18 @@
   text-align: center;
   position:center;
 }
+.flashcard-container.flashcard-correct {
+  animation: flashGreen 0.5s linear ;
+}
+@keyframes flashGreen {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: #58fd58;
+  }
+}
+
 .landing-page {
   width: 100%;
   max-width: 800px;
