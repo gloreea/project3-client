@@ -1,17 +1,22 @@
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faSignOutAlt, faHouse, faList} from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar({ currentUser, handleLogout }) {
 	const loggedIn = (
 		<>
 			{/* if the user is logged in... */}
 			<Link to="/">
-				<span onClick={handleLogout}><button>logout</button></span>
+				<span onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt}/>
+				Logout</span>
 			</Link>
 			<Link to="/profile">
-			<button>profile</button>
+				<FontAwesomeIcon icon={faUser}/>
+				Profile
 			</Link>
 			<Link to="/decks">
-			<button>Your decks</button>
+				<FontAwesomeIcon icon={faList} />
+				Your Decks
 			</Link>
 		
 		</>
@@ -28,13 +33,14 @@ export default function Navbar({ currentUser, handleLogout }) {
 			<button>login</button> */}
 			{/* </Link> */}
 			<Link to="/">
-			<button>UserApp</button>
+			<FontAwesomeIcon icon={faHouse} />
+				Home
 			</Link>
 		</>
 	)
 
 	return (
-		<nav>
+		<nav className="navbar">
 			{/* user always sees this section */}
 			{/* <Link to="/">
 			<button>UserApp</button>
