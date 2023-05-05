@@ -93,7 +93,7 @@ function App() {
 					/>
 					<Route
 						path="/decks/:id/studymode"
-						element={<StudyMode updateScore={updateScore} />}
+						element={<StudyMode currentUser={currentUser} updateScore={updateScore} />}
 					/>
 					<Route
             			path='*'
