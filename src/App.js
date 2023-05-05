@@ -15,11 +15,12 @@ import NotFound from './components/pages/NotFound'
 import StudyMode from './components/pages/StudyMode'
 import './App.css'
 import jwt_decode from 'jwt-decode'
+import axios from 'axios'
 
 function App() {
 	// the currently logged in user will be stored up here in state
 	const [currentUser, setCurrentUser] = useState(null)
-
+	
 	// useEffect -- if the user navigates away form the page, we will log them back in
 	useEffect(() => {
 		// check to see if token is in storage
@@ -43,8 +44,13 @@ function App() {
 		}
 	}
 
-	const updateCurrentUser = (newUser) => {
-		setCurrentUser(newUser)
+	const updateScore = async (userId, points) => {
+		try {
+			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/update-score/${userId}`, { points })
+			setCurrentUser(response.data)
+		} catch (err) {
+			console.log('error updating score: ', err)
+		}
 	}
 
 	return (
@@ -87,7 +93,7 @@ function App() {
 					/>
 					<Route
 						path="/decks/:id/studymode"
-						element={<StudyMode />}
+						element={<StudyMode updateScore={updateScore} />}
 					/>
 					<Route
             			path='*'
