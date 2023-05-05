@@ -9,6 +9,9 @@ export default function Deck(){
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
   const [image, setImage] = useState('');
+  const [editing, setEditing] = useState(false)
+  const [editingCard, setEditingCard] = useState({})
+  const [showForm, setShowForm] = useState(false);
 
   const {id} = useParams()
   const navigate = useNavigate();
@@ -60,7 +63,32 @@ export default function Deck(){
       console.log(`Error deleting flashcard: ${err.message}`);
     }
   };
-  
+  // const handleEdit = async (id) => {
+  //   const token = localStorage.getItem("jwt");
+  //   if (!token) {
+  //     navigate("/login")
+  //   }
+  //   try {
+  //     const url = `${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${id}`;
+     
+  //     const response = await axios.put(url, {
+  //       headers: {
+  //         Authorization: token,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     fetchCards();
+  //   } catch (err) {
+  //     console.log(`Error editing flashcard: ${err.message}`);
+  //   }
+  //   setEditing(false)
+  // }
+  // const handleEditClick = (card) => {
+  //   setEditing(true)
+  //   setShowForm(true)
+  //   setFront(card.front)
+  //   setBack(card.back)
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('jwt');
@@ -88,6 +116,7 @@ export default function Deck(){
       setBack('');
       setImage('');
       fetchCards();
+      setEditing(false);
     } catch (err) {
       console.log(`Error adding flashcard: ${err.message}`);
     }
@@ -118,13 +147,10 @@ export default function Deck(){
         />
       )}
       <p className="flashcard-container-back flashcard-container-show-back-back">Back: {card.back}</p>
-      <button className="edit-button">Edit</button>
+      <button className="edit-button" onClick={handleEditClick}>Edit</button>
       <button className="delete-button" onClick={() => deleteFlashcard(card._id)}>Delete</button>
     </div>
   ));
-  
-  
-  
   
 
   return (
@@ -140,7 +166,7 @@ export default function Deck(){
       <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required/>
     </label>
    <br />
-    <label class= "file-input" htmlFor="image-upload" className="form-label">
+    <label id= "file-input" htmlFor="image-upload" className="form-label">
       Image:
       <div className="image-preview"> 
         {image && <img src={image} alt="Preview" />}
