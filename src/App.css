@@ -334,3 +334,75 @@ button:active {
 .card-form-submit:active {
   background-color: #3344ff;
 }
+.profile-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.user-stats {
+  width: 300px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  margin-right: 10px;
+  flex: 2;
+}
+
+.user-info {
+  flex: 1;
+  width: 300px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.user-info h2,
+.user-stats h2 {
+  margin-top: 0;
+}
+
+.user-info p {
+  margin: 10px 0;
+}
+
+.user-info button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.user-info button:hover {
+  background-color: #0056b3;
+}
+
+.user-info input[type="text"],
+.user-info input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.user-info button[type="submit"] {
+  background-color: #28a745;
+}
+
+.user-info button[type="submit"]:hover {
+  background-color: #1a682c;
+}
+
+.user-info button[type="submit"],
+.user-info button[type="button"] {
+  margin-right: 10px;
+}
+.edit-form-container {
+  width: 300px;
+}

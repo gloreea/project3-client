@@ -83,12 +83,14 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 	}
 
 	return (
-		<div>
+		<div >
 			<div>
 				<h1>Hello, {currentUser?.name}</h1>
 
 				<h2>Welcome to your Profile Page</h2>
 			</div>
+			<div className = "profile-container">
+
 			<div className="user-stats">
 				<h2>User Stats</h2>
 				<p>Decks Studied: #</p>
@@ -97,7 +99,7 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 
 			<div>
 				{edit ? (
-					<div>
+					<div className = "edit-form-container">
 						<h2>Edit User Info</h2>
 						<form onSubmit={e => handleSubmit(e, email)}>
 							<div>
@@ -135,6 +137,7 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 					</>
 				)}
 			</div>
+				</div>
 		</div>
 	)
 }
