@@ -4,11 +4,16 @@ import {useState, useEffect} from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
 
+
 export default function Deck(){
   const [cards, setCards] = useState([]);
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
   const [image, setImage] = useState('');
+  const [editing, setEditing] = useState(false)
+  const [editingCard, setEditingCard] = useState({})
+  const [showForm, setShowForm] = useState(false);
+  const [cardId, setCardId] = useState('');
 
   const {id} = useParams()
   const navigate = useNavigate();
@@ -61,6 +66,14 @@ export default function Deck(){
     }
   };
   
+  const handleEditClick = (card) => {
+    setEditing(true)
+    setShowForm(true)
+    setEditingCard(card)
+    setFront(card.front)
+    setBack(card.back)
+    setCardId(card._id)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('jwt');
@@ -71,6 +84,23 @@ export default function Deck(){
     }
   
     try {
+      if (editing) {
+        const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${cardId}`, {
+          front,
+          back,
+          image,
+          deckId: id,
+        },
+        {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(`PUT response status: ${response.status}`)
+      console.log(`PUT response data: ${JSON.stringify(response.data)}`);
+    } else {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}/flashcards`, {
         front,
         back,
@@ -84,10 +114,13 @@ export default function Deck(){
       });
       console.log(`POST response status: ${response.status}`);
       console.log(`POST response data: ${JSON.stringify(response.data)}`);
+    }
       setFront('');
       setBack('');
       setImage('');
       fetchCards();
+      setEditing(false);
+      setCardId('')
     } catch (err) {
       console.log(`Error adding flashcard: ${err.message}`);
     }
@@ -118,13 +151,11 @@ export default function Deck(){
         />
       )}
       <p className="flashcard-container-back flashcard-container-show-back-back">Back: {card.back}</p>
-      <button className="edit-button">Edit</button>
+     
+      <button className="edit-button" onClick={() => handleEditClick(card)}>Edit</button>
       <button className="delete-button" onClick={() => deleteFlashcard(card._id)}>Delete</button>
     </div>
   ));
-  
-  
-  
   
 
   return (
@@ -140,7 +171,7 @@ export default function Deck(){
       <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required/>
     </label>
    <br />
-    <label class= "file-input" htmlFor="image-upload" className="form-label">
+    <label id= "file-input" htmlFor="image-upload" className="form-label">
       Image:
       <div className="image-preview"> 
         {image && <img src={image} alt="Preview" />}
