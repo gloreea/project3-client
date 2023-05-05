@@ -12,6 +12,7 @@ export default function StudyMode() {
     const navigate = useNavigate()
     const [numCorrect, setNumCorrect] = useState(0)
     const [flashcardCorrect, setFlashcardCorrect] = useState(false)
+    const [shownCardIndices, setShownCardIndices] = useState([0]);
     // const [stopFlash, setStopFlash] = useState(false);
 
     const fetchCards = async () => {
@@ -56,20 +57,32 @@ export default function StudyMode() {
       };
 
       const handleNextCard = () => {
-        const randomIndex = Math.floor(Math.random() * countCards(cards)); // pass the cards array to the countCards function
-        setCurrentCardIndex(randomIndex);
+        const remainingCards = cards.filter((_, index) => !shownCardIndices.includes(index));
+      
+        if (remainingCards.length === 0) {
+          // All cards have been shown
+          setCurrentCardIndex(cards.length); // set to a value greater than the card array length
+          return;
+        }
+      
+        const randomIndex = Math.floor(Math.random() * remainingCards.length);
+        const cardIndex = cards.findIndex((card) => card === remainingCards[randomIndex]);
+      
+        setCurrentCardIndex(cardIndex);
+        setShownCardIndices([...shownCardIndices, cardIndex]);
         setShowBack(false);
       };
       
-
-    const currentCard = cards[currentCardIndex]
-    if (currentCardIndex >= cards.length) {
+      const currentCard = cards[currentCardIndex];
+      
+      if (currentCardIndex >= cards.length) {
         return (
-            <div>
-                <h2>No more flashcards</h2>
-            </div>
-        )
-    }
+          <div>
+            <h2>No more flashcards</h2>
+          </div>
+        );
+      }
+      
     const handleMarkCorrect = () => {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1)
       setFlashcardCorrect(true)
