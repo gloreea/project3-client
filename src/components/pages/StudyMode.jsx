@@ -48,11 +48,16 @@ export default function StudyMode() {
     //       <p className="flashcard-container-back ">Back: {card.back}</p>
     //     </div>
     //   ));
+    const countCards = (cards) => {
+        return cards.length;
+      };
 
-    const handleNextCard = () => {
-        setCurrentCardIndex((prevIndex) => prevIndex + 1);
+      const handleNextCard = () => {
+        const randomIndex = Math.floor(Math.random() * countCards(cards)); // pass the cards array to the countCards function
+        setCurrentCardIndex(randomIndex);
         setShowBack(false);
       };
+      
 
     const currentCard = cards[currentCardIndex]
     if (currentCardIndex >= cards.length) {
@@ -67,6 +72,8 @@ export default function StudyMode() {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div>
             <h2>Study Mode</h2>
+            <h2>Deck Size: {countCards(cards)}</h2>
+
             <div className="flashcard-container" onClick={toggleBack}>
     <h2>Current Card {currentCardIndex + 1}</h2>
     <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
