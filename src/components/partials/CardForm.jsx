@@ -25,18 +25,19 @@ export default function CardForm({ addNewDeck }) {
     }
 
     return (
-        <div>
+        <div className = "card-form-container">
             <form onSubmit={handleSubmit} >
-                <h1>Create New Deck:</h1>
+                <h1 className="card-form-title">Create New Deck:</h1>
                 <input
                     type="text"
                     placeholder='enter deck name'
                     id='deckname'
                     value={deckTitle}
                     onChange={(e) => setDeckTitle(e.target.value)}
+                    className="card-form-input"
                 />
 
-                <button type="submit">Create</button>
+                <button className="card-form-submit" type="submit">Create</button>
             </form>
         </div>
     )

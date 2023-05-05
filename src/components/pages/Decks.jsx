@@ -46,12 +46,12 @@ export default function Decks() {
   const deckList = decks ? decks.map(deck => {
 
     return (
-      <li key={`deck-li ${deck._id}`}>
+      <li key={`deck-li ${deck._id}`} className="deck-item">
         <Link to={`/decks/${deck._id}`}>
           <p>{deck.title}</p>
         </Link>
         <Link to={`/decks/${deck._id}/studymode`}>
-          <button>Study Mode</button>
+          <button className="study-mode-button">Study Mode</button>
         </Link>
       </li>
     );
@@ -65,8 +65,9 @@ export default function Decks() {
       <CardForm
         addNewDeck={addNewDeck}
       />
-
-      {deckList}
+      <ul className = "deck-list">
+        {deckList}
+      </ul>
     </div>
   )
 }

@@ -111,7 +111,7 @@ export default function StudyMode() {
             <div>
                 <button onClick={handleMarkCorrect}>Correct</button>
                 <button onClick={handleMarkIncorrect}>Incorrect</button>
-                <button onClick={handleNextCard}>Next Card</button>
+                <button onClick={handleNextCard}>Next</button>
             </div>
             <p>Number of Correct Flashcards: {numCorrect}</p>
         </div>
