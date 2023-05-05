@@ -104,7 +104,24 @@
 .flashcard-container-show-back-back {
   opacity: 1;
 }
+.navbar {
+  background-color: #222;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.navbar span {
+  color: #fff;
+  margin-right: 10px;
+  cursor: pointer;
+}
 .delete-button {
   background-color: lightpink;
   border-radius: 50%;
