@@ -62,16 +62,53 @@
 }
 
 .landing-page {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  background-color: #f7f7f7;
 }
-.new-user,
-.existing-user {
+header {
+  text-align: center;
   margin-bottom: 40px;
 }
+header h1 {
+  font-size: 32px;
+  color: var(--primary-color);
+}
+
+header p {
+  font-size: 18px;
+  color: var(--text-color);
+}
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+features {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.features h2 {
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.features ul {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.features li {
+  color: var(--text-color);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 .flashcard-container:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
@@ -148,19 +185,76 @@ button:hover {
 button:active {
   background-color: #004080;
 }
-ol {
-  list-style-type: decimal;
+.how-to-get-started {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.how-to-get-started h2 {
+  color: #3366ff;
+  font-size: 24px;
+}
+
+.how-to-get-started ol {
+  margin-top: 20px;
   padding-left: 20px;
 }
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
-li {
+.how-to-get-started li {
+  color: #333333;
   font-size: 18px;
-  color: #555;
   margin-bottom: 10px;
 }
+.new-user {
+  background-color:  #3366ff;
+  padding: 20px;
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: center;
+}
 
+.new-user h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.new-user p {
+  font-size: 18px;
+}
+
+.new-user button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff6633 ;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+}
+.existing-user {
+  background-color: #ff6633;
+  padding: 20px;
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.existing-user h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.existing-user p {
+  font-size: 18px;
+}
+
+.existing-user button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #3366ff;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+}
