@@ -55,6 +55,7 @@ export default function Deck(){
       });
       console.log(`DELETE response status: ${response.status}`);
       console.log(`DELETE response data: ${JSON.stringify(response.data)}`);
+      fetchCards();
     } catch (err) {
       console.log(`Error deleting flashcard: ${err.message}`);
     }
