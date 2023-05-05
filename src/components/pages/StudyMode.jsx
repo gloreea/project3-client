@@ -13,6 +13,8 @@ export default function StudyMode() {
     const [numCorrect, setNumCorrect] = useState(0)
     const [flashcardCorrect, setFlashcardCorrect] = useState(false)
     const [shownCardIndices, setShownCardIndices] = useState([0]);
+    const [incorrectCards, setIncorrectCards] = useState([]);
+
     // const [stopFlash, setStopFlash] = useState(false);
 
     const fetchCards = async () => {
@@ -93,9 +95,24 @@ export default function StudyMode() {
       }, 1000); 
     }
     const handleMarkIncorrect = () => {
-      setFlashcardCorrect(false)
-      handleNextCard()
-    }
+        const newCards = [...cards];
+        const removedCard = newCards.splice(currentCardIndex, 1)[0];
+        newCards.push(removedCard);
+        setCards(newCards);
+        setIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, currentCard]);
+        handleNextCard();
+      };
+        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
