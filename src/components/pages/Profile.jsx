@@ -8,45 +8,48 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 	const [email, setEmail] = useState(currentUser?.email)
 	const [password, setPassword] = useState('*****')
 	const [edit, setEdit] = useState(false)
+	const [userDecks, setUserDecks] = useState([])
 	const navigate = useNavigate()
 
 	// useEffect for getting the user data and checking auth
 	useEffect(() => {
 		const fetchData = async () => {
-				try {
-					// get the token from local storage
-					const token = localStorage.getItem('jwt')
-					// make the auth headers
-					const options = {
-						headers: {
-							'Authorization': token
-						}
+			try {
+				// get the token from local storage
+				const token = localStorage.getItem('jwt')
+				// make the auth headers
+				const options = {
+					headers: {
+						'Authorization': token
 					}
-					// hit the auth locked endpoint
-					const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/auth-locked`, options)
-					// example POST with auth headers (options are always last argument)
-					// await axios.post(url, requestBody (form data), options)
-					// set the secret user message in state
-					setMsg(response.data.msg)
-				} catch (err) {
-					// if the error is a 401 -- that means that auth failed
-					console.warn(err)
-					if (err.response) {
-						if (err.response.status === 401) {
-							// panic!
-							handleLogout()
-							// send the user to the login screen
-							navigate('/login')
-						}
+				}
+				// hit the auth locked endpoint
+				const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/auth-locked`, options)
+				// example POST with auth headers (options are always last argument)
+				// await axios.post(url, requestBody (form data), options)
+				// set the secret user message in state
+				setMsg(response.data.msg)
+
+				const decksResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks`, options)
+				setUserDecks(decksResponse.data)
+
+				setEmail(currentUser?.email)
+
+			} catch (err) {
+				// if the error is a 401 -- that means that auth failed
+				console.warn(err)
+				if (err.response) {
+					if (err.response.status === 401) {
+						// panic!
+						handleLogout()
+						// send the user to the login screen
+						navigate('/login')
 					}
 				}
 			}
-			fetchData()
-	}, [handleLogout, navigate]) // only fire on the first render of this component
-
-	useEffect(() => {
-		setEmail(currentUser?.email)
-	}, [currentUser])
+		}
+		fetchData()
+	}, [handleLogout, navigate, currentUser]) // only fire on the first render of this component
 
 	const handleEdit = () => {
 		setEdit(true)
@@ -56,11 +59,11 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 		e.preventDefault()
 		try {
 			const token = localStorage.getItem('jwt')
-      		const options = {
-        		headers: {
-          			'Authorization': token
-        		}
-      		}
+			const options = {
+				headers: {
+					'Authorization': token
+				}
+			}
 			const requestBody = {
 				email: email,
 				password: password
@@ -74,11 +77,11 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 		}
 		// make api request to save and update 'email' and 'password' state 
 	}
-	const handleCancelClick = () =>{
+	const handleCancelClick = () => {
 		setEdit(false)
 		// reset user info to original values
 	}
-	
+
 	return (
 		<div>
 			<div>
@@ -89,42 +92,49 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 			<div className="user-stats">
 				<h2>User Stats</h2>
 				<p>Decks Studied: #</p>
-				<p>Number of Decks: #</p>
+				<p>Number of Decks: {userDecks.length}</p>
 			</div>
 
 			<div>
-				{edit ? ( 
+				{edit ? (
+					<div>
+						<h2>Edit User Info</h2>
+						<form onSubmit={e => handleSubmit(e, email)}>
+							<div>
+								<label htmlFor='email'>Email:</label>
+								<input
+									type="text"
+									id="email"
+									placeholder={currentUser?.email || 'enter new email'}
+									value={email}
+									onChange={e => setEmail(e.target.value)} />
+							</div>
+							<br />
+							<div>
+								<label htmlFor='password'>Password:</label>
+								<input
+									type="password"
+									id="password"
+									placeholder="enter new password"
+									onChange={e => setPassword(e.target.value)} />
+							</div>
+							<br />
+							<button onClick={handleSubmit}>Save</button>
+							<button onClick={handleCancelClick}>Cancel</button>
+						</form>
+					</div>
+				) : (
 					<>
-					<form onSubmit={e => handleSubmit(e, email)}>
-						<label htmlFor='email'>Email:</label>
-						<input
-							type="text"
-							id="email"
-							placeholder={currentUser?.email || 'enter new email'}
-							value={email}
-							onChange={e => setEmail( e.target.value)} />
-						<label htmlFor='password'>Password:</label>
-						<input
-							type="password"
-							id="password"
-							placeholder="enter new password"
-							onChange={e => setPassword(e.target.value)} />
-						<button onClick={handleSubmit}>Save</button>
-						<button onClick={handleCancelClick}>Cancel</button>
-					</form>
+						<div className="user-info">
+							<h2>User Information</h2>
+							<p>Email : {currentUser?.email}</p>
+							<p>Password : {password}</p>
+							<button onClick={handleEdit}>Edit</button>
+						</div>
+						{/* <h3>{msg}</h3> */}
 					</>
-				):(
-				<>
-				<div className="user-info">
-					<h2>User Information</h2>
-					<p>Email : {currentUser?.email}</p>
-					<p>Password : {password}</p>
-					<button onClick={handleEdit}>Edit</button>
-				</div>
-				<h3>{msg}</h3>
-				</>
 				)}
 			</div>
 		</div>
-		)
+	)
 }
