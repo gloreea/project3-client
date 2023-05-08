@@ -17,6 +17,7 @@ export default function StudyMode() {
 
     // const [stopFlash, setStopFlash] = useState(false);
 
+
     const fetchCards = async () => {
         try {
             const token = localStorage.getItem('jwt');
@@ -43,10 +44,10 @@ export default function StudyMode() {
 
 
 
-    //   const toggleBack = (event) => {
-    //     const backElement = event.currentTarget.querySelector(".flashcard-container-back");
-    //     backElement.classList.toggle("flashcard-container-show-back-back");
-    //   };
+    const toggleBack = (event) => {
+        setShowBack(!showBack);
+      };
+      
 
     //   const flashCard = cards.map(card => (
     //     <div className="flashcard-container" key={card._id} onClick={toggleBack}>
@@ -79,58 +80,24 @@ export default function StudyMode() {
       
       if (currentCardIndex >= cards.length) {
         return (
-          <div>
-            <h2>No more flashcards</h2>
-          </div>
-        );
-      }
-      
+            <div>
+                <h2>No more flashcards</h2>
+            </div>
+        )
+    }
     const handleMarkCorrect = () => {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1)
       setFlashcardCorrect(true)
-      
-      setTimeout(() => {
-        setFlashcardCorrect(false)
-        handleNextCard()
-      }, 1000); 
+      setTimeout(handleNextCard, 1000); // 
     }
     const handleMarkIncorrect = () => {
-        const newCards = [...cards];
-        const removedCard = newCards.splice(currentCardIndex, 1)[0];
-        newCards.push(removedCard);
-        setCards(newCards);
-        setIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, currentCard]);
-        handleNextCard();
-      };
-        
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      setFlashcardCorrect(false)
+      handleNextCard()
+    }
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div>
-<<<<<<< HEAD
-            <h2>Study Mode</h2>
-            <h2>Deck Size: {countCards(cards)}</h2>
-
-            <div className={`flashcard-container ${flashcardCorrect ? "flashcard-correct" : ""}`} onClick={toggleBack}>
-            <h2>Current Card {currentCardIndex + 1}</h2>
-              <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
-              <p className={`flashcard-container-back-next ${showBack ? 'flashcard-container-show-back-back' : ''}`}>Answer: {currentCard.back}</p>
-            </div>
-            <div>
-                <button onClick={handleMarkCorrect}>Correct</button>
-                <button onClick={handleMarkIncorrect}>Incorrect</button>
-                <button onClick={handleNextCard}>Next</button>
-=======
             <div>
                 <h2>Study Mode</h2>
                 <div>
@@ -141,7 +108,6 @@ export default function StudyMode() {
                 <div>
                     <button onClick={handleNextCard}>Next Card</button>
                 </div>
->>>>>>> 7d06f37 (i)
             </div>
         </div>
         </div>
