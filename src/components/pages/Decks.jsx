@@ -17,7 +17,7 @@ export default function Decks() {
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
-    console.log(token)
+    // console.log(token)
 
     if (!token) {
       navigate('/login'); // Redirect user to login page if no token found
@@ -30,7 +30,7 @@ export default function Decks() {
       }
     })
       .then(response => {
-        console.log(response.data); // add this line
+        console.log(response.data);
         setDecks(response.data)
 
 
@@ -47,7 +47,7 @@ export default function Decks() {
 
     return (
       <li key={`deck-li ${deck._id}`} className="deck-item">
-        <Link to={`/decks/${deck._id}`}>
+        <Link to={`/decks/${deck._id}`} >
           <p>{deck.title}</p>
         </Link>
         <Link to={`/decks/${deck._id}/studymode`}>
@@ -65,7 +65,7 @@ export default function Decks() {
       <CardForm
         addNewDeck={addNewDeck}
       />
-      <ul className = "deck-list">
+      <ul className="deck-list">
         {deckList}
       </ul>
     </div>
