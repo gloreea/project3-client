@@ -1,10 +1,8 @@
-import { Link } from "react-router-dom"
-import CardForm from "../partials/CardForm";
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
 
-export default function StudyMode() {
+export default function StudyMode({ currentUser, updateScore }) {
     const [cards, setCards] = useState([]);
     const [showBack, setShowBack] = useState(false);
     const { id } = useParams()
@@ -14,6 +12,8 @@ export default function StudyMode() {
     const [flashcardCorrect, setFlashcardCorrect] = useState(false)
     const [shownCardIndices, setShownCardIndices] = useState([0]);
     const [incorrectCards, setIncorrectCards] = useState([]);
+
+    console.log("current user in Studymode: ", currentUser)
 
     // const [stopFlash, setStopFlash] = useState(false);
 
@@ -92,7 +92,12 @@ export default function StudyMode() {
       setTimeout(() => {
         setFlashcardCorrect(false)
         handleNextCard()
-      }, 1000); 
+      }, 1000);
+
+      // update the user's score when marked correct
+      if (currentUser) {
+        updateScore(currentUser._id, numCorrect + 1) // add 1 to current score
+      }
     }
     const handleMarkIncorrect = () => {
         const newCards = [...cards];
@@ -103,16 +108,7 @@ export default function StudyMode() {
         handleNextCard();
       };
         
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

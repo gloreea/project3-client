@@ -47,6 +47,7 @@ function App() {
 	const updateScore = async (userId, points) => {
 		try {
 			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/update-score/${userId}`, { points })
+			console.log("updated user: ", response.data)
 			setCurrentUser(response.data)
 		} catch (err) {
 			console.log('error updating score: ', err)
@@ -93,7 +94,7 @@ function App() {
 					/>
 					<Route
 						path="/decks/:id/studymode"
-						element={<StudyMode updateScore={updateScore} />}
+						element={<StudyMode currentUser={currentUser} updateScore={updateScore} />}
 					/>
 					<Route
             			path='*'
