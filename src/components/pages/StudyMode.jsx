@@ -43,10 +43,10 @@ export default function StudyMode() {
 
 
 
-    const toggleBack = (event) => {
-        setShowBack(!showBack);
-      };
-      
+    //   const toggleBack = (event) => {
+    //     const backElement = event.currentTarget.querySelector(".flashcard-container-back");
+    //     backElement.classList.toggle("flashcard-container-show-back-back");
+    //   };
 
     //   const flashCard = cards.map(card => (
     //     <div className="flashcard-container" key={card._id} onClick={toggleBack}>
@@ -117,6 +117,7 @@ export default function StudyMode() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div>
+<<<<<<< HEAD
             <h2>Study Mode</h2>
             <h2>Deck Size: {countCards(cards)}</h2>
 
@@ -129,9 +130,20 @@ export default function StudyMode() {
                 <button onClick={handleMarkCorrect}>Correct</button>
                 <button onClick={handleMarkIncorrect}>Incorrect</button>
                 <button onClick={handleNextCard}>Next</button>
+=======
+            <div>
+                <h2>Study Mode</h2>
+                <div>
+                    <h2>Current Card {currentCardIndex + 1}</h2>
+                    <p>Front: {currentCard.front}</p>
+                    <p>Back: {currentCard.back}</p>
+                </div>
+                <div>
+                    <button onClick={handleNextCard}>Next Card</button>
+                </div>
+>>>>>>> 7d06f37 (i)
             </div>
-            <p>Number of Correct Flashcards: {numCorrect}</p>
         </div>
-    </div>
-    )    
+        </div>
+    );
 }
