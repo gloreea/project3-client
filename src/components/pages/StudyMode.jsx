@@ -113,7 +113,7 @@ export default function StudyMode({ currentUser, updateScore }) {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div>
-            <h2>Study Mode</h2>
+            <h1>Study Mode</h1>
             <h2>Deck Size: {countCards(cards)}</h2>
 
             <div className={`flashcard-container ${flashcardCorrect ? "flashcard-correct" : ""}`} onClick={toggleBack}>
