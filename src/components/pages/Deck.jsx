@@ -3,6 +3,7 @@ import CardForm from "../partials/CardForm";
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
+import CloudinaryUploadWidget from "../partials/CloudinaryUploadWidget";
 
 
 export default function Deck() {
@@ -163,6 +164,7 @@ export default function Deck() {
 
   return (
     <>
+    
       <h1>{deckTitle}</h1>
       <form className="flashcard-form" onSubmit={handleSubmit}>
         <label>
@@ -175,18 +177,21 @@ export default function Deck() {
           <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required />
         </label>
         <br />
-        <label id="file-input" htmlFor="image-upload" className="form-label">
+        {/* <label id="file-input" htmlFor="image-upload" className="form-label">
           Image:
           <div className="image-preview">
             {image && <img src={image} alt="Preview" />}
-          </div>
-          <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
-        </label>
+          </div> */}
+          {/* <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} /> */}
+        {/* </label> */}
         <br />
+        <CloudinaryUploadWidget />
         <button className="flashcard-form-button" type="submit">Add Flashcard</button>
+        
       </form>
       <div className="flashcard-list">
         {flashCard}
+        <img id="uploadedimage" src=""></img>
       </div>
     </>
   );
