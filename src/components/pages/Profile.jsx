@@ -9,6 +9,7 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 	const [password, setPassword] = useState('*****')
 	const [edit, setEdit] = useState(false)
 	const [userDecks, setUserDecks] = useState([])
+	const [userScore, setUserScore] = useState(0)
 	const navigate = useNavigate()
 
 	// useEffect for getting the user data and checking auth
@@ -33,7 +34,15 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 				const decksResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks`, options)
 				setUserDecks(decksResponse.data)
 
+				const userDataResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/update-score/${currentUser._id}`, options)
+				setUserScore(userDataResponse.data.user.score)
+
 				setEmail(currentUser?.email)
+
+				setCurrentUser({
+					...currentUser,
+					score: userDataResponse.data.user.score
+				})
 
 			} catch (err) {
 				// if the error is a 401 -- that means that auth failed
@@ -93,7 +102,7 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 
 			<div className="user-stats">
 				<h2>User Stats</h2>
-				<p>Decks Studied: #</p>
+				<p>Study Score: {currentUser?.score}</p>
 				<p>Number of Decks: {userDecks.length}</p>
 			</div>
 
