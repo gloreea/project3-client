@@ -14,6 +14,9 @@ export default function Deck(){
   const [editingCard, setEditingCard] = useState({})
   const [showForm, setShowForm] = useState(false);
   const [cardId, setCardId] = useState('');
+  const [formImg, setFormImg] = useState('')
+  const [displayImg, setDisplayImage]= useState('')
+  
 
   const {id} = useParams()
   const navigate = useNavigate();
@@ -84,6 +87,17 @@ export default function Deck(){
     }
   
     try {
+      const formData = new FormData()
+      
+      formData.append('front', front);
+      formData.append('back', back);
+      formData.append('deckId', id)
+      if (image) {
+        formData.append('image', image);
+        const uploadResponse = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/upload`, formData);
+        formData.set('image', uploadResponse.data.cloudImage);
+      }
+    
       if (editing) {
         const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${cardId}`, {
           front,
@@ -94,7 +108,8 @@ export default function Deck(){
         {
           headers: {
             Authorization: token,
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data' 
+            // 'application/json',
           },
         }
       );
@@ -115,30 +130,42 @@ export default function Deck(){
       console.log(`POST response status: ${response.status}`);
       console.log(`POST response data: ${JSON.stringify(response.data)}`);
     }
-      setFront('');
-      setBack('');
-      setImage('');
-      fetchCards();
-      setEditing(false);
-      setCardId('')
-    } catch (err) {
-      console.log(`Error adding flashcard: ${err.message}`);
-    }
-  };
-  
-  
-  const handleImageUpload = (event) => {
+    setFront('');
+    setBack('');
+    setImage('');
+    fetchCards();
+    setEditing(false);
+    setCardId('')
+  } catch (err) {
+    console.log(`Error adding flashcard: ${err.message}`);
+  }
+};
+
+
+const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-  
+    // const fd = new FormData()
+    // fd.append('image', file)
     reader.onloadend = () => {
-      setImage(reader.result);
+      setDisplayImage(reader.result);
     };
-  
     if (file) {
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
+    setImage(file)
     }
-  };
+  
+    // axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/upload`, fd)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setDisplayImage(response.data.cloudImage);
+    //   })
+    //   .catch((error) => {
+    //   console.log(error)
+    //   });
+      
+    };
+    
   
   const flashCard = cards.map((card) => (
     <div className="flashcard-container" key={card._id}>
@@ -161,23 +188,23 @@ export default function Deck(){
   return (
     <>
     <form  className="flashcard-form" onSubmit={handleSubmit}>
-    <label>
-      Front:
-      <input type="text" value={front} onChange={(e) => setFront(e.target.value)} required />
-    </label>
+    <label htmlFor="front">Front:</label>
+      <input type="text" id="front" value={front} onChange={(e) => setFront(e.target.value)} required />
     <br />
-    <label>
-      Back:
-      <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required/>
-    </label>
+    <label htmlFor="back">Back:</label>
+      <input type="text" id="back" value={back} onChange={(e) => setBack(e.target.value)} required/>
    <br />
-    <label id= "file-input" htmlFor="image-upload" className="form-label">
-      Image:
+    <label htmlFor="image-upload" className="file-input">Image:</label>
       <div className="image-preview"> 
-        {image && <img src={image} alt="Preview" />}
+      <input id="image-upload" type="file" accept="image/*" className="form-control" onChange={handleImageUpload} />
+      {displayImg !== '' && (
+        <img 
+          src={displayImg} 
+          alt="Preview" 
+          style={{ maxWidth: '100%', maxHeight: '100%' }}
+          />
+      )}
       </div>
-      <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
-    </label>
     <br />
     <button className = "flashcard-form-button" type="submit">Add Flashcard</button>
     </form>
