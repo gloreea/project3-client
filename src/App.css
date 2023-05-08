@@ -73,6 +73,7 @@ header {
   text-align: center;
   margin-bottom: 40px;
 }
+<<<<<<< HEAD
 header h1 {
   font-size: 32px;
   color: var(--primary-color);
@@ -109,6 +110,19 @@ features {
   margin-bottom: 10px;
 }
 
+=======
+.landing-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+.new-user,
+.existing-user {
+  margin-bottom: 40px;
+}
+>>>>>>> b0f0a91 (some button and welcome page css)
 .flashcard-container:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
