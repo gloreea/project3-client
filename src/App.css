@@ -481,3 +481,6 @@ button:active {
   grid-gap: 20px;
 }
 
+.error{
+  color:red
+}
