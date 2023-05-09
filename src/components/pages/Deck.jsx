@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom"
-import CardForm from "../partials/CardForm";
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios';
@@ -34,7 +32,7 @@ export default function Deck() {
         });
         console.log(`this is the setCards response data`, response.data);
         setCards(response.data.flashcards);
-        
+
         setDeckTitle(response.data.title)
       }
     } catch (error) {
@@ -164,7 +162,7 @@ export default function Deck() {
 
   return (
     <>
-    
+
       <h1>{deckTitle}</h1>
       <form className="flashcard-form" onSubmit={handleSubmit}>
         <label>
@@ -182,12 +180,12 @@ export default function Deck() {
           <div className="image-preview">
             {image && <img src={image} alt="Preview" />}
           </div> */}
-          {/* <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} /> */}
+        {/* <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} /> */}
         {/* </label> */}
         <br />
         <CloudinaryUploadWidget />
         <button className="flashcard-form-button" type="submit">Add Flashcard</button>
-        
+
       </form>
       <div className="flashcard-list">
         {flashCard}

@@ -31,9 +31,9 @@ export default function CardForm({ addNewDeck }) {
     }
 
     return (
-        <div className = "card-form-container">
+        <div className="card-form-container">
             <form onSubmit={handleSubmit} >
-            {errorMessage && <p className="error">{errorMessage}</p>} {/* Display the error message if it is set */}
+                {errorMessage && <p className="error">{errorMessage}</p>} {/* Display the error message if it is set */}
                 <h1 className="card-form-title">Create New Deck:</h1>
                 <input
                     type="text"
