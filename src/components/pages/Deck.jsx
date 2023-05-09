@@ -103,12 +103,12 @@ export default function Deck() {
         console.log(`PUT response status: ${response.status}`)
         console.log(`PUT response data: ${JSON.stringify(response.data)}`);
       } else {
-        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}/flashcards`, {
-          front,
-          back,
-          image,
-          deckId: id,
-        }, {
+        const formdata = new FormData()
+        formdata.append("image", image)
+        formdata.append("front", front)
+        formdata.append("back", back)
+        formdata.append("deckId", id)
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}/flashcards`, formdata, {
           headers: {
             'Authorization': token,
             'Content-Type': 'application/json',
@@ -131,15 +131,9 @@ export default function Deck() {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
+    console.log(file)
+      setImage(file);
 
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
   };
 
   const flashCard = cards.map((card) => (
@@ -164,7 +158,7 @@ export default function Deck() {
     <>
 
       <h1>{deckTitle}</h1>
-      <form className="flashcard-form" onSubmit={handleSubmit}>
+      <form className="flashcard-form" onSubmit={handleSubmit} encType="mulipart/form">
         <label>
           Front:
           <input type="text" value={front} onChange={(e) => setFront(e.target.value)} required />
