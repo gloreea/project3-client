@@ -142,7 +142,7 @@ export default function Deck() {
       {card.image && (
         <img
           className="flashcard-container-image"
-          src={`https://res.cloudinary.com/dlzj22j8a/image/upload/v1683568204/${card.image}.jpg`}
+          src={`https://res.cloudinary.com/dlzj22j8a/image/upload/w_100,h_100,c_fill/v1683568204/${card.image}.jpg`}
           alt={`Image for ${card.front}`}
         />
       )}
