@@ -19,7 +19,7 @@ export default function Register({ currentUser, setCurrentUser }) {
 			// post fortm data to the backend
 			const reqBody = {
 				name,
-				email, 
+				email,
 				password
 			}
 			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/register`, reqBody)
@@ -40,7 +40,7 @@ export default function Register({ currentUser, setCurrentUser }) {
 				setMsg(err.response.data.msg)
 			}
 		}
- 	}
+	}
 
 	// conditionally render a navigate component
 	if (currentUser) {
@@ -54,32 +54,39 @@ export default function Register({ currentUser, setCurrentUser }) {
 			<p>{msg}</p>
 
 			<form onSubmit={handleSubmit}>
-				<label htmlFor='name'>Name:</label>
-				<input 
-					type="text"
-					id="name"
-					placeholder='your username...'
-					onChange={e => setName(e.target.value)}
-					value={name}
-				/>
-
-				<label htmlFor='email'>Email:</label>
-				<input 
-					type="email"
-					id="email"
-					placeholder='your email...'
-					onChange={e => setEmail(e.target.value)}
-					value={email}
-				/>
-
-				<label htmlFor='password'>Password:</label>
-				<input 
-					type="password"
-					id="password"
-					placeholder='password...'
-					onChange={e => setPassword(e.target.value)}
-					value={password}
-				/>
+				<div>
+					<label htmlFor='name'>Name:</label>
+					<input
+						type="text"
+						id="name"
+						placeholder='your username...'
+						onChange={e => setName(e.target.value)}
+						value={name}
+					/>
+				</div>
+				<br />
+				<div>
+					<label htmlFor='email'>Email:</label>
+					<input
+						type="email"
+						id="email"
+						placeholder='your email...'
+						onChange={e => setEmail(e.target.value)}
+						value={email}
+					/>
+				</div>
+				<br />
+				<div>
+					<label htmlFor='password'>Password:</label>
+					<input
+						type="password"
+						id="password"
+						placeholder='password...'
+						onChange={e => setPassword(e.target.value)}
+						value={password}
+					/>
+				</div>
+				<br />
 
 				<button type="submit">Register</button>
 			</form>
