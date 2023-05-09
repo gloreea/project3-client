@@ -63,7 +63,7 @@ function App() {
 				/>
 			</header>
 
-			<div className="App">
+			<div className="App background-design">
 				<Routes>
 					<Route
 						path="/"
