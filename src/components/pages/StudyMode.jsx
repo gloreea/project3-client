@@ -110,6 +110,13 @@ export default function StudyMode({ currentUser, updateScore }) {
         <div className={`flashcard-container ${flashcardCorrect ? "flashcard-correct" : ""}`} onClick={toggleBack}>
           <h2>Current Card {currentCardIndex + 1}</h2>
           <p className="flashcard-container-p flashcard-container-front">Question: {currentCard.front}</p>
+          {currentCard.image && (
+        <img
+          className="flashcard-container-image"
+          src={`https://res.cloudinary.com/dlzj22j8a/image/upload/w_100,h_100,c_fill/v1683568204/${currentCard.image}.jpg`}
+          alt={`Image for ${currentCard.front}`}
+        />
+      )}
           <p className={`flashcard-container-back-next ${showBack ? 'flashcard-container-show-back-back' : ''}`}>Answer: {currentCard.back}</p>
         </div>
         <div>
