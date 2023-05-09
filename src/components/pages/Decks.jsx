@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom"
 import CardForm from "../partials/CardForm";
 import { useState, useEffect } from "react"
@@ -8,12 +7,8 @@ import axios from 'axios';
 export default function Decks() {
   const [decks, setDecks] = useState([]);
 
-
   const { id } = useParams()
   const navigate = useNavigate()
-
-
-
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
@@ -23,7 +18,6 @@ export default function Decks() {
       navigate('/login'); // Redirect user to login page if no token found
     }
 
-
     axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/`, {
       headers: {
         'Authorization': token
@@ -32,8 +26,6 @@ export default function Decks() {
       .then(response => {
         console.log(response.data);
         setDecks(response.data)
-
-
       })
       .catch(console.warn)
 
@@ -56,8 +48,6 @@ export default function Decks() {
       </li>
     );
   }) : null;
-
-
 
   return (
     <div>

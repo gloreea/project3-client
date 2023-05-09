@@ -17,7 +17,7 @@ export default function Login({ currentUser, setCurrentUser }) {
 		try {
 			// post fortm data to the backend
 			const reqBody = {
-				email, 
+				email,
 				password
 			}
 			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/login`, reqBody)
@@ -38,7 +38,7 @@ export default function Login({ currentUser, setCurrentUser }) {
 				setMsg(err.response.data.msg)
 			}
 		}
- 	}
+	}
 
 	// conditionally render a navigate component
 	if (currentUser) {
@@ -53,7 +53,7 @@ export default function Login({ currentUser, setCurrentUser }) {
 
 			<form onSubmit={handleSubmit}>
 				<label htmlFor='email'>Email:</label>
-				<input 
+				<input
 					type="email"
 					id="email"
 					placeholder='your email...'
@@ -62,7 +62,7 @@ export default function Login({ currentUser, setCurrentUser }) {
 				/>
 
 				<label htmlFor='password'>Password:</label>
-				<input 
+				<input
 					type="password"
 					id="password"
 					placeholder='password...'

@@ -84,8 +84,8 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 		} catch (err) {
 			console.warn(err)
 		}
-		// make api request to save and update 'email' and 'password' state 
 	}
+	
 	const handleCancelClick = () => {
 		setEdit(false)
 		// reset user info to original values
@@ -98,55 +98,55 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 
 				<h2>Welcome to your Profile Page</h2>
 			</div>
-			<div className = "profile-container">
+			<div className="profile-container">
 
-			<div className="user-stats">
-				<h2>User Stats</h2>
-				<p>Study Score: {currentUser?.score}</p>
-				<p>Number of Decks: {userDecks.length}</p>
-			</div>
-
-			<div>
-				{edit ? (
-					<div className = "edit-form-container">
-						<h2>Edit User Info</h2>
-						<form onSubmit={e => handleSubmit(e, email)}>
-							<div>
-								<label htmlFor='email'>Email:</label>
-								<input
-									type="text"
-									id="email"
-									placeholder={currentUser?.email || 'enter new email'}
-									value={email}
-									onChange={e => setEmail(e.target.value)} />
-							</div>
-							<br />
-							<div>
-								<label htmlFor='password'>Password:</label>
-								<input
-									type="password"
-									id="password"
-									placeholder="enter new password"
-									onChange={e => setPassword(e.target.value)} />
-							</div>
-							<br />
-							<button onClick={handleSubmit}>Save</button>
-							<button onClick={handleCancelClick}>Cancel</button>
-						</form>
-					</div>
-				) : (
-					<>
-						<div className="user-info">
-							<h2>User Information</h2>
-							<p>Email : {currentUser?.email}</p>
-							<p>Password : {password}</p>
-							<button onClick={handleEdit}>Edit</button>
-						</div>
-						{/* <h3>{msg}</h3> */}
-					</>
-				)}
-			</div>
+				<div className="user-stats">
+					<h2>User Stats</h2>
+					<p>Study Score: {currentUser?.score}</p>
+					<p>Number of Decks: {userDecks.length}</p>
 				</div>
+
+				<div>
+					{edit ? (
+						<div className="edit-form-container">
+							<h2>Edit User Info</h2>
+							<form onSubmit={e => handleSubmit(e, email)}>
+								<div>
+									<label htmlFor='email'>Email:</label>
+									<input
+										type="text"
+										id="email"
+										placeholder={currentUser?.email || 'enter new email'}
+										value={email}
+										onChange={e => setEmail(e.target.value)} />
+								</div>
+								<br />
+								<div>
+									<label htmlFor='password'>Password:</label>
+									<input
+										type="password"
+										id="password"
+										placeholder="enter new password"
+										onChange={e => setPassword(e.target.value)} />
+								</div>
+								<br />
+								<button onClick={handleSubmit}>Save</button>
+								<button onClick={handleCancelClick}>Cancel</button>
+							</form>
+						</div>
+					) : (
+						<>
+							<div className="user-info">
+								<h2>User Information</h2>
+								<p>Email : {currentUser?.email}</p>
+								<p>Password : {password}</p>
+								<button onClick={handleEdit}>Edit</button>
+							</div>
+							{/* <h3>{msg}</h3> */}
+						</>
+					)}
+				</div>
+			</div>
 		</div>
 	)
 }
