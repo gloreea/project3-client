@@ -474,3 +474,9 @@ button:active {
 .error{
   color:red
 }
+
+html {
+  background-image: url('images/cool-background.png');
+  background-repeat: no-repeat; /* if you don't want the image to repeat */
+  background-size: cover; /* if you want the image to cover the whole element */
+}
