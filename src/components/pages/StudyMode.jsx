@@ -51,20 +51,21 @@ export default function StudyMode({ currentUser, updateScore }) {
 
   const handleNextCard = () => {
     const remainingCards = cards.filter((_, index) => !shownCardIndices.includes(index));
-
-    if (remainingCards.length === 0) {
+  
+    if (shownCardIndices.length === cards.length) {
       // All cards have been shown
       setCurrentCardIndex(cards.length); // set to a value greater than the card array length
       return;
     }
-
+  
     const randomIndex = Math.floor(Math.random() * remainingCards.length);
     const cardIndex = cards.findIndex((card) => card === remainingCards[randomIndex]);
-
+  
     setCurrentCardIndex(cardIndex);
     setShownCardIndices([...shownCardIndices, cardIndex]);
     setShowBack(false);
   };
+  
 
   const currentCard = cards[currentCardIndex];
 
@@ -93,11 +94,26 @@ export default function StudyMode({ currentUser, updateScore }) {
   const handleMarkIncorrect = () => {
     const newCards = [...cards];
     const removedCard = newCards.splice(currentCardIndex, 1)[0];
-    newCards.push(removedCard);
+  
+    // Add the card back to the deck, but with a lower priority
+    const newIndex = Math.floor(Math.random() * (newCards.length - 1));
+    newCards.splice(newIndex, 0, removedCard);
+  
     setCards(newCards);
     setIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, currentCard]);
+  
+    const remainingCards = cards.filter((_, index) => !shownCardIndices.includes(index));
+  
+    if (remainingCards.length === 0) {
+      // All cards have been shown
+      setCurrentCardIndex(cards.length); // set to a value greater than the card array length
+      return;
+    }
+  
     handleNextCard();
   };
+  
+  
 
 
 
