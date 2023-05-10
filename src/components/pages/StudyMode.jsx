@@ -11,7 +11,6 @@ export default function StudyMode({ currentUser, updateScore }) {
   const navigate = useNavigate();
   const [numCorrect, setNumCorrect] = useState(0);
   const [flashcardCorrect, setFlashcardCorrect] = useState(false);
-  const [shownCardIndices, setShownCardIndices] = useState([0]);
 
   const fetchCards = async () => {
     try {
