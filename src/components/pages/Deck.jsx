@@ -87,19 +87,21 @@ export default function Deck() {
 
     try {
       if (editing) {
-        const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${cardId}`, {
-          front,
-          back,
-          image,
-          deckId: id,
-        },
-          {
+        const formdata = new FormData()
+        formdata.append("front", front)
+        formdata.append("back", back)
+        formdata.append("deckId", id)
+        if (image) {
+          formdata.append("image", image)
+        }
+
+        const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${cardId}`, formdata, {
             headers: {
               Authorization: token,
-              'Content-Type': 'application/json',
+              'Content-Type': 'multipart/form-data',
             },
           }
-        );
+        )
         console.log(`PUT response status: ${response.status}`)
         console.log(`PUT response data: ${JSON.stringify(response.data)}`);
       } else {
@@ -136,7 +138,7 @@ export default function Deck() {
 
   const flashCard = cards.map((card) => (
     <div className="flashcard-container" key={card._id}>
-      <p className="flashcard-container-p flashcard-container-front">Front: {card.front}</p>
+      <p className="flashcard-container-p flashcard-container-front">{card.front}</p>
       {card.image && (
         <img
           className="flashcard-container-image"
@@ -144,7 +146,7 @@ export default function Deck() {
           alt={`Image for ${card.front}`}
         />
       )}
-      <p className="flashcard-container-back flashcard-container-show-back-back">Back: {card.back}</p>
+      <p className="flashcard-container-back flashcard-container-show-back-back">{card.back}</p>
 
       <button className="edit-button" onClick={() => handleEditClick(card)}>Edit</button>
       <button className="delete-button" onClick={() => deleteFlashcard(card._id)}>Delete</button>
