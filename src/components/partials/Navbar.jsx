@@ -21,7 +21,7 @@ export default function Navbar({ currentUser, handleLogout }) {
 
 		</>
 	)
-
+	
 	const loggedOut = (
 		<>
 			{/* if the user is not logged in... */}

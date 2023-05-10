@@ -16,6 +16,7 @@ import StudyMode from './components/pages/StudyMode'
 import './App.css'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
+import Footer from './components/partials/Footer'
 
 function App() {
 	// the currently logged in user will be stored up here in state
@@ -102,6 +103,7 @@ function App() {
 					/>
 				</Routes>
 			</div>
+			<Footer />
 		</Router>
 	);
 }
