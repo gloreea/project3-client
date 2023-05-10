@@ -93,7 +93,7 @@ export default function Profile({ currentUser, handleLogout, setCurrentUser }) {
 
 	return (
 		<div >
-			<div>
+			<div className='page-heading'>
 				<h1>Hello, {currentUser?.name}</h1>
 
 				<h2>Welcome to your Profile Page</h2>

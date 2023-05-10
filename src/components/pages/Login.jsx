@@ -46,7 +46,7 @@ export default function Login({ currentUser, setCurrentUser }) {
 	}
 
 	return (
-		<div>
+		<div className='App-header'>
 			<h1>Login to Your Account:</h1>
 
 			<p>{msg}</p>

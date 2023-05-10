@@ -80,10 +80,12 @@ export default function Decks() {
 
   return (
     <div>
-
+      <div className="page-heading">
       <CardForm
         addNewDeck={addNewDeck}
       />
+      </div>
+      <br />
       <ul className="deck-list">
         {deckList}
       </ul>
