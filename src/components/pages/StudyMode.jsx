@@ -47,6 +47,7 @@ export default function StudyMode({ currentUser, updateScore }) {
       console.log('Congratulations, you have studied all the cards!');
       return;
     }
+    setShowBack(false)
     setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length); // Cycle through the array
   };
 
@@ -75,6 +76,7 @@ export default function StudyMode({ currentUser, updateScore }) {
     if (currentUser) {
       updateScore(currentUser._id, numCorrect + 1); // add 1 to current score
     }
+    setShowBack(false)
   };
 
   const handleMarkIncorrect = () => {
@@ -83,6 +85,7 @@ export default function StudyMode({ currentUser, updateScore }) {
     setTimeout(() => {
       setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
     }, 1000);
+    setShowBack(false)
   };
 
   const currentCard = cards[currentCardIndex];
