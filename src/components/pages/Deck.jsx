@@ -75,6 +75,7 @@ export default function Deck() {
     setBack(card.back)
     setCardId(card._id)
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('jwt');
@@ -127,12 +128,10 @@ export default function Deck() {
     }
   };
 
-
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     console.log(file)
-      setImage(file);
-
+    setImage(file);
   };
 
   const flashCard = cards.map((card) => (
@@ -154,36 +153,38 @@ export default function Deck() {
 
 
   return (
-    <>
+    <div className="page-div">
 
       <h1>{deckTitle}</h1>
+
       <form className="flashcard-form" onSubmit={handleSubmit} encType="mulipart/form">
-        <label>
-          Front:
+        <div>
+          <label>Front:</label>
           <input type="text" value={front} onChange={(e) => setFront(e.target.value)} required />
-        </label>
+        </div>
         <br />
-        <label>
-          Back:
+
+        <div>
+          <label>Back:</label>
           <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required />
-        </label>
+        </div>
         <br />
-        <label id="file-input" htmlFor="image-upload" className="form-label">
-          Image:
+
+        <div>
+          <label id="file-input" htmlFor="image-upload" className="form-label">Image:</label>
           <div className="image-preview">
             {image && <img src={image} alt="Preview" />}
-          </div> 
-        <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
-        </label>
-        <br />
-        {/* <CloudinaryUploadWidget /> */}
+          </div>
+          <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
+        </div>
         <button className="flashcard-form-button" type="submit">Add Flashcard</button>
-
       </form>
+
       <div className="flashcard-list">
         {flashCard}
         <img id="uploadedimage" src=""></img>
       </div>
-    </>
+
+    </div>
   );
 }

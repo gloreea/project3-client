@@ -35,6 +35,32 @@ export default function Decks() {
     setDecks([...decks, newDeck])
   }
 
+  const deleteDeck = async (id) => {
+    const token = localStorage.getItem('jwt')
+
+    if (!token) {
+      navigate('/login') // redirect to login if no token
+    }
+
+    try {
+      const url = `${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}`
+      console.log(`Deleting deck ${id}`)
+      const response = await axios.delete(url, {
+        headers: {
+          'Authorization': token
+        }
+      })
+
+      // filter out the deleted deck from the array
+      const updatedDecks = decks.filter(deck => deck._id !== id)
+
+      // update the decks state
+      setDecks(updatedDecks)
+    } catch (err) {
+      console.log('error deleting deck: ', err)
+    }
+  }
+
   const deckList = decks ? decks.map(deck => {
 
     return (
@@ -42,9 +68,12 @@ export default function Decks() {
         <Link to={`/decks/${deck._id}`} >
           <p>{deck.title}</p>
         </Link>
+        
         <Link to={`/decks/${deck._id}/studymode`}>
           <button className="study-mode-button">Study Mode</button>
         </Link>
+
+        <button className="delete-button" onClick={() => deleteDeck(deck._id)}>Delete</button>
       </li>
     );
   }) : null;
