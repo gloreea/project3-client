@@ -4,32 +4,28 @@ import axios from 'axios';
 
 export default function StudyMode({ currentUser, updateScore }) {
   const [cards, setCards] = useState([]);
-  const [showBack, setShowBack] = useState(false);
-  const { id } = useParams()
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-  const navigate = useNavigate()
-  const [numCorrect, setNumCorrect] = useState(0)
-  const [flashcardCorrect, setFlashcardCorrect] = useState(false)
-  const [shownCardIndices, setShownCardIndices] = useState([0]);
   const [incorrectCards, setIncorrectCards] = useState([]);
-
-  console.log("current user in Studymode: ", currentUser)
-
-  // const [stopFlash, setStopFlash] = useState(false);
+  const [showBack, setShowBack] = useState(false);
+  const { id } = useParams();
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const navigate = useNavigate();
+  const [numCorrect, setNumCorrect] = useState(0);
+  const [flashcardCorrect, setFlashcardCorrect] = useState(false);
+  const [shownCardIndices, setShownCardIndices] = useState([0]);
 
   const fetchCards = async () => {
     try {
       const token = localStorage.getItem('jwt');
 
       if (!token) {
-        navigate('/login'); // Redirect user to login page if no token found
+        navigate('/login'); 
       } else {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/decks/${id}`, {
           headers: {
             'Authorization': token
           }
         });
-        console.log(`this is the setCards response data`, response.data);
+
         setCards(response.data.flashcards);
       }
     } catch (error) {
@@ -41,31 +37,53 @@ export default function StudyMode({ currentUser, updateScore }) {
     fetchCards();
   }, []);
 
-  const toggleBack = (event) => {
+  const toggleBack = () => {
     setShowBack(!showBack);
   };
 
-  const countCards = (cards) => {
-    return cards.length;
-  };
-
   const handleNextCard = () => {
-    const remainingCards = cards.filter((_, index) => !shownCardIndices.includes(index));
-  
-    if (shownCardIndices.length === cards.length) {
-      // All cards have been shown
-      setCurrentCardIndex(cards.length); // set to a value greater than the card array length
+    if (cards.length === 0) {
+      // All cards have been studied
+      console.log('Congratulations, you have studied all the cards!');
       return;
     }
-  
-    const randomIndex = Math.floor(Math.random() * remainingCards.length);
-    const cardIndex = cards.findIndex((card) => card === remainingCards[randomIndex]);
-  
-    setCurrentCardIndex(cardIndex);
-    setShownCardIndices([...shownCardIndices, cardIndex]);
-    setShowBack(false);
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length); // Cycle through the array
   };
+
+  const handleMarkCorrect = () => {
+    setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+    setFlashcardCorrect(true);
   
+    // Remove the correct card from the array
+    const newCards = [...cards];
+    newCards.splice(currentCardIndex, 1);
+    setCards(newCards);
+  
+    setTimeout(() => {
+      setFlashcardCorrect(false);
+      // Delay the switch to the next card
+      setCurrentCardIndex((prevIndex) => {
+        if (prevIndex >= newCards.length) {
+          return 0; // Reset to the beginning if we've removed the last card
+        } else {
+          return prevIndex; // Otherwise, stay at the current index
+        }
+      });
+    }, 1000);
+  
+    // update the user's score when marked correct
+    if (currentUser) {
+      updateScore(currentUser._id, numCorrect + 1); // add 1 to current score
+    }
+  };
+
+  const handleMarkIncorrect = () => {
+    setIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, currentCardIndex]);
+    // Delay the switch to the next card
+    setTimeout(() => {
+      setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    }, 1000);
+  };
 
   const currentCard = cards[currentCardIndex];
 
@@ -77,51 +95,11 @@ export default function StudyMode({ currentUser, updateScore }) {
     );
   }
 
-  const handleMarkCorrect = () => {
-    setNumCorrect((prevNumCorrect) => prevNumCorrect + 1)
-    setFlashcardCorrect(true)
-
-    setTimeout(() => {
-      setFlashcardCorrect(false)
-      handleNextCard()
-    }, 1000);
-
-    // update the user's score when marked correct
-    if (currentUser) {
-      updateScore(currentUser._id, numCorrect + 1) // add 1 to current score
-    }
-  }
-  const handleMarkIncorrect = () => {
-    const newCards = [...cards];
-    const removedCard = newCards.splice(currentCardIndex, 1)[0];
-  
-    // Add the card back to the deck, but with a lower priority
-    const newIndex = Math.floor(Math.random() * (newCards.length - 1));
-    newCards.splice(newIndex, 0, removedCard);
-  
-    setCards(newCards);
-    setIncorrectCards((prevIncorrectCards) => [...prevIncorrectCards, currentCard]);
-  
-    const remainingCards = cards.filter((_, index) => !shownCardIndices.includes(index));
-  
-    if (remainingCards.length === 0) {
-      // All cards have been shown
-      setCurrentCardIndex(cards.length); // set to a value greater than the card array length
-      return;
-    }
-  
-    handleNextCard();
-  };
-  
-  
-
-
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div>
-        <h1>Study Mode</h1>
-        <h2>Deck Size: {countCards(cards)}</h2>
+      <h1>Study Mode</h1>
+        <h2>Deck Size: {cards.length}</h2>
 
         <div className={`flashcard-container ${flashcardCorrect ? "flashcard-correct" : ""}`} onClick={toggleBack}>
           <h2>Current Card {currentCardIndex + 1}</h2>
@@ -145,3 +123,6 @@ export default function StudyMode({ currentUser, updateScore }) {
     </div>
   )
 }
+
+
+
