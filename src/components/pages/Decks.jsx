@@ -79,14 +79,14 @@ export default function Decks() {
   }) : null;
 
   return (
-    <div>
+    <div className= "deck-container">
       <div className="page-heading">
       <CardForm
         addNewDeck={addNewDeck}
       />
       </div>
       <br />
-      <ul className="deck-list">
+      <ul className="deck-list ">
         {deckList}
       </ul>
     </div>
