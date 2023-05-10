@@ -518,4 +518,6 @@ html {
   /* if you don't want the image to repeat */
   background-size: cover;
   /* if you want the image to cover the whole element */
+  background-position: center center;
+  min-height: 100vh;
 }
