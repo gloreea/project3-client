@@ -96,11 +96,11 @@ export default function Deck() {
         }
 
         const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api-v1/flashcards/${cardId}`, formdata, {
-            headers: {
-              Authorization: token,
-              'Content-Type': 'multipart/form-data',
-            },
-          }
+          headers: {
+            Authorization: token,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
         )
         console.log(`PUT response status: ${response.status}`)
         console.log(`PUT response data: ${JSON.stringify(response.data)}`);
@@ -157,30 +157,33 @@ export default function Deck() {
   return (
     <div className="page-div">
 
-      <h1>{deckTitle}</h1>
+      <div className="form-div">
+        <h1>{deckTitle}</h1>
 
-      <form className="flashcard-form" onSubmit={handleSubmit} encType="mulipart/form">
-        <div>
-          <label>Front:</label>
-          <input type="text" value={front} onChange={(e) => setFront(e.target.value)} required />
-        </div>
-        <br />
-
-        <div>
-          <label>Back:</label>
-          <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required />
-        </div>
-        <br />
-
-        <div>
-          <label id="file-input" htmlFor="image-upload" className="form-label">Image:</label>
-          <div className="image-preview">
-            {image && <img src={image} alt="Preview" />}
+        <form className="flashcard-form" onSubmit={handleSubmit} encType="mulipart/form">
+          <div>
+            <label>Front:</label>
+            <input type="text" value={front} onChange={(e) => setFront(e.target.value)} required />
           </div>
-          <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
-        </div>
-        <button className="flashcard-form-button" type="submit">Add Flashcard</button>
-      </form>
+          <br />
+
+          <div>
+            <label>Back:</label>
+            <input type="text" value={back} onChange={(e) => setBack(e.target.value)} required />
+          </div>
+          <br />
+
+          <div>
+            <label id="file-input" htmlFor="image-upload" className="form-label">Image:</label>
+            <div className="image-preview">
+              {image && <img src={image} alt="Preview" />}
+            </div>
+            <input className="form-control" id="image-upload" type="file" onChange={handleImageUpload} />
+          </div>
+          <button className="flashcard-form-button" type="submit">Add Flashcard</button>
+        </form>
+      </div>
+
 
       <div className="flashcard-list">
         {flashCard}

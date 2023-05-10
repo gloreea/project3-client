@@ -48,14 +48,14 @@ export default function Register({ currentUser, setCurrentUser }) {
 	}
 
 	return (
-		<div>
+		<div className='App-header'>
 			<h1>Register for an account:</h1>
 
 			<p>{msg}</p>
 
 			<form onSubmit={handleSubmit}>
 				<div>
-					<label htmlFor='name'>Name:</label>
+					<label htmlFor='name'>Username:</label>
 					<input
 						type="text"
 						id="name"
